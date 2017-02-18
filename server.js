@@ -23,7 +23,7 @@ app.get('/about', middleware.requireAuthentication, function(req, res) {
 
 
 
-var PORT = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 app.listen(port, function(){
   console.log('I hear you on port:', port);
 })
