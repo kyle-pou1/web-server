@@ -1,29 +1,17 @@
 var express = require('express');
 var app = express();
+var PORT = process.env.PORT || 3000;
 
-var middleware = require('./middleware')
-//route level middle ware.
+var middleware = require('./middleware.js');
 
-app.use(middleware.logger);//app.use gets used on entire app both root and about routes willprint out private route hit
+app.use(middleware.logger);
 
-app.use(express.static('public'))
-
-app.get('/', function(req, res) {
-    res.send('Hello Express!');
+app.get('/about', middleware.requireAuthentication, function (req, res) {
+	res.send('About Us!');
 });
 
-app.get('/about', middleware.requireAuthentication, function(req, res) {
-    res.send('About us');
-})
+app.use(express.static(__dirname + '/public'));
 
-
-
-
-
-
-
-
-var port = process.env.PORT || 3000;
-app.listen(port, function(){
-  console.log('I hear you on port:', port);
-})
+app.listen(PORT, function () {
+	console.log('Express server started on port ' + PORT + '!');
+});
